@@ -116,10 +116,10 @@ public class AccountAdapter implements IAccountAdapter {
                         rs.getInt("id"),
                         rs.getString("token"),
                         rs.getString("email"),
-                        sqlFacade.getStatusEnum(rs.getInt("type")),
+                        sqlFacade.getTypeEnum(rs.getInt("type")),
                         sqlFacade.getStatusEnum(rs.getInt("status")),
                         rs.getObject("created", LocalDateTime.class),
-                        rs.getObject("updated", LocalDateTime.class),
+                        rs.getObject("destroyed", LocalDateTime.class),
                         rs.getString("statustoken")
 
                 ));

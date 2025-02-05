@@ -7,10 +7,10 @@ public record AccountByIdRecord(
         int id,
         String token,
         String email,
-        StatusEnum type,
+        TypeEnum type,
         StatusEnum status,
         LocalDateTime created,
-        LocalDateTime updated,
+        LocalDateTime destroyed,
         String statustoken
 
 ) {

@@ -53,7 +53,7 @@ public class SetupAdapter {
 
                         rs.getInt("id"),
                         rs.getInt("machines"),
-                        rs.getObject("updated", LocalDateTime.class)
+                        rs.getObject("destroyed", LocalDateTime.class)
 
                 ));
 

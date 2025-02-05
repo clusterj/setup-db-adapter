@@ -73,7 +73,7 @@ public class MachineAdapter {
                         rs.getString("host"),
                         rs.getInt("freeports"),
                         rs.getObject("created", LocalDateTime.class),
-                        rs.getObject("updated", LocalDateTime.class)
+                        rs.getObject("destroyed", LocalDateTime.class)
 
                 ));
 

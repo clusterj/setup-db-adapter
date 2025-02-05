@@ -116,7 +116,7 @@ public class RoleAdapter {
                         rs.getInt("acct_id"),
                         rs.getInt("orga_id"),
                         rs.getObject("created", LocalDateTime.class),
-                        rs.getObject("updated", LocalDateTime.class),
+                        rs.getObject("destroyed", LocalDateTime.class),
                         sqlFacade.getRoleEnum(rs.getInt("role"))
 
                 ));
