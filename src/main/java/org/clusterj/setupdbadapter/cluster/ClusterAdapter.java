@@ -1,6 +1,4 @@
-package org.clusterj.setupdatabase.adapter.cluster;
-
-import org.clusterj.setupdatabase.adapter.role.RoleAdapter;
+package org.clusterj.setupdbadapter.cluster;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -19,7 +17,7 @@ public class ClusterAdapter {
 
     }
 
-    public static Optional<Integer> create(Connection conn, String token, LocalDateTime created) throws SQLException {
+    public Optional<Integer> create(Connection conn, String token, LocalDateTime created) throws SQLException {
 
         try (CallableStatement stmt = conn.prepareCall(SQL.CREATE)) {
 
@@ -37,7 +35,7 @@ public class ClusterAdapter {
 
     }
 
-    public static List<Integer> idListByOrganization(Connection conn, int organizationId) throws SQLException {
+    public List<Integer> idListByOrganization(Connection conn, int organizationId) throws SQLException {
 
         try (CallableStatement stmt = conn.prepareCall(SQL.ID_LIST_BY_ORGANIZATION)) {
 
@@ -57,7 +55,7 @@ public class ClusterAdapter {
 
     }
 
-    public static Optional<Integer> idByToken(Connection conn, String token) throws SQLException {
+    public Optional<Integer> idByToken(Connection conn, String token) throws SQLException {
 
         try (CallableStatement stmt = conn.prepareCall(SQL.ID_BY_TOKEN)) {
 
@@ -75,7 +73,7 @@ public class ClusterAdapter {
 
     }
 
-    public static Optional<ClusterByIdRecord> byId(Connection conn, int id) throws SQLException {
+    public Optional<ClusterByIdRecord> byId(Connection conn, int id) throws SQLException {
 
         try (CallableStatement stmt = conn.prepareCall(SQL.BY_ID)) {
 

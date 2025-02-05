@@ -1,4 +1,4 @@
-package org.clusterj.setupdatabase.adapter.account;
+package org.clusterj.setupdbadapter.account;
 
 import java.time.LocalDateTime;
 
@@ -7,8 +7,8 @@ public record AccountByIdRecord(
         int id,
         String token,
         String email,
-        org.clusterj.setupdatabase.entity.account.StatusEnum type,
-        org.clusterj.setupdatabase.entity.account.StatusEnum status,
+        StatusEnum type,
+        StatusEnum status,
         LocalDateTime created,
         LocalDateTime updated,
         String statustoken

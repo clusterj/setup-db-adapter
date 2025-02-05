@@ -1,4 +1,6 @@
-package org.clusterj.setupdatabase.adapter.role;
+package org.clusterj.setupdbadapter.role;
+
+import org.clusterj.setupdbadapter.organization.RoleEnum;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +11,7 @@ public record RoleByIdRecord(
         int organizationId,
         LocalDateTime created,
         LocalDateTime updated,
-        org.clusterj.setupdatabase.entity.organization.RoleEnum role
+        RoleEnum role
 
 ) {
 }

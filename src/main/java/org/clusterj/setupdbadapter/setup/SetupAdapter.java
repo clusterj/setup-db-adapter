@@ -1,7 +1,8 @@
-package org.clusterj.setupdatabase.adapter.setup;
+package org.clusterj.setupdbadapter.setup;
+
+import org.clusterj.setupdbadapter.ISQLFacade;
 
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -11,6 +12,8 @@ import java.util.Optional;
 
 public class SetupAdapter {
 
+    private ISQLFacade sqlFacade;
+
     public static final class SQL {
 
         public static String BY_ID = "{call setup_by_id(?)}";
@@ -18,9 +21,9 @@ public class SetupAdapter {
 
     }
 
-    public static List<Integer> idList(Connection conn) throws SQLException {
+    public List<Integer> idList() throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_LIST)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST)) {
 
             ResultSet rs = stmt.executeQuery();
 
@@ -36,9 +39,9 @@ public class SetupAdapter {
 
     }
 
-    public static Optional<SetupByIdRecord> byId(Connection conn, int id) throws SQLException {
+    public Optional<SetupByIdRecord> byId(int id) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.BY_ID)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
 
             stmt.setInt(1, id);
 
@@ -60,6 +63,11 @@ public class SetupAdapter {
 
         }
 
+    }
+
+    public SetupAdapter setSqlFacade(ISQLFacade sqlFacade) {
+        this.sqlFacade = sqlFacade;
+        return this;
     }
 
 }

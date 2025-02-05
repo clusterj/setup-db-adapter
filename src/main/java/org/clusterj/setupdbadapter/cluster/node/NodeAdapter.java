@@ -1,4 +1,6 @@
-package org.clusterj.setupdatabase.adapter.cluster.node;
+package org.clusterj.setupdbadapter.cluster.node;
+
+import org.clusterj.setupdbadapter.ISQLFacade;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -6,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class NodeAdapter {
+public class NodeAdapter implements INodeAdapter {
+
+    private ISQLFacade sqlFacade;
 
     public static final class SQL {
 
@@ -17,9 +21,10 @@ public class NodeAdapter {
 
     }
 
-    public static Optional<Integer> create(Connection conn, String token, int clusterId, int port) throws SQLException {
+    @Override
+    public Optional<Integer> create(String token, int clusterId, int port) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.CREATE)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CREATE)) {
 
             stmt.setString(1, token);
             stmt.setInt(2, clusterId);
@@ -36,9 +41,10 @@ public class NodeAdapter {
 
     }
 
-    public static List<Integer> idListByOrganization(Connection conn, int organizationId) throws SQLException {
+    @Override
+    public List<Integer> idListByOrganization(int organizationId) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_LIST_BY_CLUSTER)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_CLUSTER)) {
 
             stmt.setInt(1, organizationId);
 
@@ -56,9 +62,10 @@ public class NodeAdapter {
 
     }
 
-    public static Optional<Integer> idByToken(Connection conn, String token) throws SQLException {
+    @Override
+    public Optional<Integer> idByToken(String token) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_BY_TOKEN)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_BY_TOKEN)) {
 
             stmt.setString(1, token);
 
@@ -74,9 +81,10 @@ public class NodeAdapter {
 
     }
 
-    public static Optional<NodeByIdRecord> byId(Connection conn, int id) throws SQLException {
+    @Override
+    public Optional<NodeByIdRecord> byId(int id) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.BY_ID)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
 
             stmt.setInt(1, id);
 
@@ -99,6 +107,12 @@ public class NodeAdapter {
 
         }
 
+    }
+
+    @Override
+    public INodeAdapter setSqlFacade(ISQLFacade sqlFacade) {
+        this.sqlFacade = sqlFacade;
+        return this;
     }
 
 }

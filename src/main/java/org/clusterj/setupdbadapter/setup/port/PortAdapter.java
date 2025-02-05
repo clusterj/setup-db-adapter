@@ -1,4 +1,6 @@
-package org.clusterj.setupdatabase.adapter.setup.port;
+package org.clusterj.setupdbadapter.setup.port;
+
+import org.clusterj.setupdbadapter.ISQLFacade;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class PortAdapter {
+
+    private ISQLFacade sqlFacade;
 
     public static final class SQL {
 
@@ -15,9 +19,9 @@ public class PortAdapter {
 
     }
 
-    public static Optional<Integer> updateUsed(Connection conn, int id, int used) throws SQLException {
+    public Optional<Integer> updateUsed(int id, int used) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.UPDATE_FREEPORTS)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.UPDATE_FREEPORTS)) {
 
             stmt.setInt(1, id);
             stmt.setInt(2, used);
@@ -33,9 +37,9 @@ public class PortAdapter {
 
     }
 
-    public static List<Integer> idListByMachine(Connection conn) throws SQLException {
+    public List<Integer> idListByMachine() throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_LIST_BY_MACHINE)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_MACHINE)) {
 
             ResultSet rs = stmt.executeQuery();
 
@@ -51,9 +55,9 @@ public class PortAdapter {
 
     }
 
-    public static Optional<PortByIdRecord> byId(Connection conn, int id) throws SQLException {
+    public Optional<PortByIdRecord> byId(int id) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.BY_ID)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
 
             stmt.setInt(1, id);
 
@@ -76,6 +80,11 @@ public class PortAdapter {
 
         }
 
+    }
+
+    public PortAdapter setSqlFacade(ISQLFacade sqlFacade) {
+        this.sqlFacade = sqlFacade;
+        return this;
     }
 
 }

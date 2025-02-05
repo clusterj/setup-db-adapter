@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.clusterj</groupId>
-    <artifactId>setup-database</artifactId>
+    <artifactId>database-adapter</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>setup-database</name>
+    <name>database-adapter</name>
     <url>https://clusterj.org</url>
 
     <properties>
@@ -31,7 +31,7 @@
 
     <build>
 
-        <finalName>clusterj-database</finalName>
+        <finalName>clusterj-database-adapter</finalName>
 
         <plugins>
 

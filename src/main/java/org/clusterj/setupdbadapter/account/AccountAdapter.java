@@ -1,13 +1,17 @@
-package org.clusterj.setupdatabase.adapter.account;
+package org.clusterj.setupdbadapter.account;
 
-import org.clusterj.setupdatabase.entity.account.StatusEnum;
-import org.clusterj.setupdatabase.facade.SQLFacade;
+import org.clusterj.setupdbadapter.ISQLFacade;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class AccountAdapter {
+public class AccountAdapter implements IAccountAdapter {
+
+    private ISQLFacade sqlFacade;
 
     public static final class SQL {
 
@@ -19,9 +23,10 @@ public class AccountAdapter {
 
     }
 
-    public static Optional<Integer> confirm(Connection conn, String token, LocalDateTime updated) throws SQLException {
+    @Override
+    public Optional<Integer> confirm(String token, LocalDateTime updated) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.CONFIRM)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CONFIRM)) {
 
             stmt.setString(1, token);
             stmt.setObject(2, updated);
@@ -38,9 +43,10 @@ public class AccountAdapter {
 
     }
 
-    public static Optional<Integer> create(Connection conn, String email, LocalDateTime created) throws SQLException {
+    @Override
+    public Optional<Integer> create(String email, LocalDateTime created) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.CREATE)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CREATE)) {
 
             stmt.setString(1, email);
             stmt.setObject(2, created);
@@ -56,9 +62,10 @@ public class AccountAdapter {
 
     }
 
-    public static Optional<Integer> idByEmail(Connection conn, String email) throws SQLException {
+    @Override
+    public Optional<Integer> idByEmail(String email) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_BY_EMAIL)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_BY_EMAIL)) {
 
             stmt.setString(1, email);
 
@@ -74,9 +81,10 @@ public class AccountAdapter {
 
     }
 
-    public static Optional<Integer> idByToken(Connection conn, String token) throws SQLException {
+    @Override
+    public Optional<Integer> idByToken(String token) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_BY_TOKEN)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_BY_TOKEN)) {
 
             stmt.setString(1, token);
 
@@ -92,9 +100,10 @@ public class AccountAdapter {
 
     }
 
-    public static Optional<AccountByIdRecord> byId(Connection conn, int id) throws SQLException {
+    @Override
+    public Optional<AccountByIdRecord> byId(int id) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.BY_ID)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
 
             stmt.setInt(1, id);
 
@@ -107,8 +116,8 @@ public class AccountAdapter {
                         rs.getInt("id"),
                         rs.getString("token"),
                         rs.getString("email"),
-                        SQLFacade.getStatusEnum(rs.getInt("type")),
-                        SQLFacade.getStatusEnum(rs.getInt("status")),
+                        sqlFacade.getStatusEnum(rs.getInt("type")),
+                        sqlFacade.getStatusEnum(rs.getInt("status")),
                         rs.getObject("created", LocalDateTime.class),
                         rs.getObject("updated", LocalDateTime.class),
                         rs.getString("statustoken")
@@ -121,6 +130,12 @@ public class AccountAdapter {
 
         }
 
+    }
+
+    @Override
+    public AccountAdapter setSqlFacade(ISQLFacade sqlFacade) {
+        this.sqlFacade = sqlFacade;
+        return this;
     }
 
 }

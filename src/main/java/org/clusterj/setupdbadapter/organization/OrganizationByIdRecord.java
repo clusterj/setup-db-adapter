@@ -1,4 +1,4 @@
-package org.clusterj.setupdatabase.adapter.organization;
+package org.clusterj.setupdbadapter.organization;
 
 import java.time.LocalDateTime;
 

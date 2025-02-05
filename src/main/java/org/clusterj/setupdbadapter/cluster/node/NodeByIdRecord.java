@@ -1,8 +1,8 @@
-package org.clusterj.setupdatabase.adapter.cluster;
+package org.clusterj.setupdbadapter.cluster.node;
 
 import java.time.LocalDateTime;
 
-public record ClusterByIdRecord(
+public record NodeByIdRecord(
 
         int id,
         String token,

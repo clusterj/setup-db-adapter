@@ -1,6 +1,6 @@
-package org.clusterj.setupdatabase.adapter.role;
+package org.clusterj.setupdbadapter.role;
 
-import org.clusterj.setupdatabase.facade.SQLFacade;
+import org.clusterj.setupdbadapter.ISQLFacade;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class RoleAdapter {
+
+    private ISQLFacade sqlFacade;
 
     public static final class SQL {
 
@@ -20,9 +22,9 @@ public class RoleAdapter {
 
     }
 
-    public static Optional<Integer> create(Connection conn, int accountId, int organizationId, LocalDateTime created) throws SQLException {
+    public Optional<Integer> create(int accountId, int organizationId, LocalDateTime created) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.CREATE)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CREATE)) {
 
             stmt.setInt(1, accountId);
             stmt.setInt(2, organizationId);
@@ -39,9 +41,9 @@ public class RoleAdapter {
 
     }
 
-    public static List<Integer> idListByOrganization(Connection conn, int organizationId) throws SQLException {
+    public List<Integer> idListByOrganization(int organizationId) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_LIST_BY_ORGANIZATION)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_ORGANIZATION)) {
 
             stmt.setInt(1, organizationId);
 
@@ -59,9 +61,9 @@ public class RoleAdapter {
 
     }
 
-    public static List<Integer> idListByAccount(Connection conn, int accountId) throws SQLException {
+    public List<Integer> idListByAccount(int accountId) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_LIST_BY_ACCOUNT)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_ACCOUNT)) {
 
             stmt.setInt(1, accountId);
 
@@ -79,9 +81,9 @@ public class RoleAdapter {
 
     }
 
-    public static Optional<Integer> idByAccountAndOrganization(Connection conn, int accountId, int organizationId) throws SQLException {
+    public Optional<Integer> idByAccountAndOrganization(int accountId, int organizationId) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_BY_ACCOUNT_AND_ORGANIZATION)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_BY_ACCOUNT_AND_ORGANIZATION)) {
 
             stmt.setInt(1, accountId);
             stmt.setInt(2, organizationId);
@@ -98,9 +100,9 @@ public class RoleAdapter {
 
     }
 
-    public static Optional<RoleByIdRecord> byId(Connection conn, int id) throws SQLException {
+    public Optional<RoleByIdRecord> byId(int id) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.BY_ID)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
 
             stmt.setInt(1, id);
 
@@ -115,7 +117,7 @@ public class RoleAdapter {
                         rs.getInt("orga_id"),
                         rs.getObject("created", LocalDateTime.class),
                         rs.getObject("updated", LocalDateTime.class),
-                        SQLFacade.getRoleEnum(rs.getInt("role"))
+                        sqlFacade.getRoleEnum(rs.getInt("role"))
 
                 ));
 
@@ -125,6 +127,11 @@ public class RoleAdapter {
 
         }
 
+    }
+
+    public RoleAdapter setSqlFacade(ISQLFacade sqlFacade) {
+        this.sqlFacade = sqlFacade;
+        return this;
     }
 
 }

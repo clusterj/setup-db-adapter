@@ -1,10 +1,14 @@
-package org.clusterj.setupdatabase.adapter.organization;
+package org.clusterj.setupdbadapter.organization;
+
+import org.clusterj.setupdbadapter.ISQLFacade;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class OrganizationAdapter {
+public class OrganizationAdapter implements IOrganizationAdapter {
+
+    private ISQLFacade sqlFacade;
 
     public static final class SQL {
 
@@ -14,9 +18,10 @@ public class OrganizationAdapter {
 
     }
 
-    public static Optional<Integer> create(Connection conn, String token, LocalDateTime created) throws SQLException {
+    @Override
+    public Optional<Integer> create(String token, LocalDateTime created) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.CREATE)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CREATE)) {
 
             stmt.setString(1, token);
             stmt.setObject(2, created);
@@ -32,9 +37,10 @@ public class OrganizationAdapter {
 
     }
 
-    public static Optional<Integer> idByToken(Connection conn, String token) throws SQLException {
+    @Override
+    public Optional<Integer> idByToken(String token) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_BY_TOKEN)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_BY_TOKEN)) {
 
             stmt.setString(1, token);
 
@@ -50,9 +56,10 @@ public class OrganizationAdapter {
 
     }
 
-    public static Optional<OrganizationByIdRecord> byId(Connection conn, int id) throws SQLException {
+    @Override
+    public Optional<OrganizationByIdRecord> byId(int id) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.BY_ID)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
 
             stmt.setInt(1, id);
 
@@ -74,6 +81,12 @@ public class OrganizationAdapter {
 
         }
 
+    }
+
+    @Override
+    public IOrganizationAdapter setSqlFacade(ISQLFacade sqlFacade) {
+        this.sqlFacade = sqlFacade;
+        return this;
     }
 
 }

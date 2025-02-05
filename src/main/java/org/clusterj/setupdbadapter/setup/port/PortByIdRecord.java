@@ -1,4 +1,4 @@
-package org.clusterj.setupdatabase.adapter.setup.port;
+package org.clusterj.setupdbadapter.setup.port;
 
 public record PortByIdRecord(
 

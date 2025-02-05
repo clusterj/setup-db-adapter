@@ -1,4 +1,6 @@
-package org.clusterj.setupdatabase.adapter.setup.machine;
+package org.clusterj.setupdbadapter.setup.machine;
+
+import org.clusterj.setupdbadapter.ISQLFacade;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -8,6 +10,8 @@ import java.util.Optional;
 
 public class MachineAdapter {
 
+    private ISQLFacade sqlFacade;
+
     public static final class SQL {
 
         public static String BY_ID = "{call machine_by_id(?)}";
@@ -16,9 +20,9 @@ public class MachineAdapter {
 
     }
 
-    public static Optional<Integer> updateFreePorts(Connection conn, int id, int quantity, LocalDateTime updated) throws SQLException {
+    public Optional<Integer> updateFreePorts(int id, int quantity, LocalDateTime updated) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.UPDATE_FREEPORTS)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.UPDATE_FREEPORTS)) {
 
             stmt.setInt(1, id);
             stmt.setInt(2, quantity);
@@ -35,9 +39,9 @@ public class MachineAdapter {
 
     }
 
-    public static List<Integer> idList(Connection conn) throws SQLException {
+    public List<Integer> idList() throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_LIST)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST)) {
 
             ResultSet rs = stmt.executeQuery();
 
@@ -53,9 +57,9 @@ public class MachineAdapter {
 
     }
 
-    public static Optional<MachineByIdRecord> byId(Connection conn, int id) throws SQLException {
+    public Optional<MachineByIdRecord> byId(int id) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.BY_ID)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
 
             stmt.setInt(1, id);
 
@@ -79,6 +83,11 @@ public class MachineAdapter {
 
         }
 
+    }
+
+    public MachineAdapter setSqlFacade(ISQLFacade sqlFacade) {
+        this.sqlFacade = sqlFacade;
+        return this;
     }
 
 }
