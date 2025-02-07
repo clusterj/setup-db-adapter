@@ -1,6 +1,6 @@
 package org.clusterj.setupdb.adapter.cluster.node;
 
-import org.clusterj.setupdb.facade.ISQLFacade;
+import org.clusterj.sql.facade.ISQLFacade;
 
 import java.sql.SQLException;
 import java.util.List;

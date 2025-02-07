@@ -1,4 +1,4 @@
-package org.clusterj.setupdb.adapter.organization;
+package org.clusterj.setupdb.adapter.role;
 
 public enum RoleEnum {
 

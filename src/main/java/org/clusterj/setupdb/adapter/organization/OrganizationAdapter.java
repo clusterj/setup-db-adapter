@@ -1,6 +1,6 @@
 package org.clusterj.setupdb.adapter.organization;
 
-import org.clusterj.setupdb.facade.ISQLFacade;
+import org.clusterj.sql.facade.ISQLFacade;
 
 import java.sql.*;
 import java.time.LocalDateTime;

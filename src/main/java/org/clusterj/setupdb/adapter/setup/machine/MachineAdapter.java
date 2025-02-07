@@ -1,6 +1,7 @@
 package org.clusterj.setupdb.adapter.setup.machine;
 
-import org.clusterj.setupdb.facade.ISQLFacade;
+
+import org.clusterj.sql.facade.ISQLFacade;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class MachineAdapter {
+public class MachineAdapter implements IMachineAdapter {
 
     private ISQLFacade sqlFacade;
 
@@ -20,6 +21,7 @@ public class MachineAdapter {
 
     }
 
+    @Override
     public Optional<Integer> updateFreePorts(int id, int quantity, LocalDateTime updated) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.UPDATE_FREEPORTS)) {
@@ -39,6 +41,7 @@ public class MachineAdapter {
 
     }
 
+    @Override
     public List<Integer> idList() throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST)) {
@@ -57,6 +60,7 @@ public class MachineAdapter {
 
     }
 
+    @Override
     public Optional<MachineByIdRecord> byId(int id) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
@@ -85,7 +89,8 @@ public class MachineAdapter {
 
     }
 
-    public MachineAdapter setSqlFacade(ISQLFacade sqlFacade) {
+    @Override
+    public IMachineAdapter setSqlFacade(ISQLFacade sqlFacade) {
         this.sqlFacade = sqlFacade;
         return this;
     }

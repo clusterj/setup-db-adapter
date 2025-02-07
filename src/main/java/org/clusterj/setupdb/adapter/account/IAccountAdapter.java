@@ -1,6 +1,6 @@
 package org.clusterj.setupdb.adapter.account;
 
-import org.clusterj.setupdb.facade.ISQLFacade;
+import org.clusterj.sql.facade.ISQLFacade;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -16,6 +16,10 @@ public interface IAccountAdapter {
     Optional<Integer> idByToken(String token) throws SQLException;
 
     Optional<AccountByIdRecord> byId(int id) throws SQLException;
+
+    TypeEnum getTypeEnum(int code);
+
+    StatusEnum getStatusEnum(int code);
 
     AccountAdapter setSqlFacade(ISQLFacade sqlFacade);
 }

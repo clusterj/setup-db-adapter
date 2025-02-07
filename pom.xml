@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.clusterj</groupId>
-    <artifactId>database-adapter</artifactId>
+    <artifactId>setup-db-adapter</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>database-adapter</name>
+    <name>setup-db-adapter</name>
     <url>https://clusterj.org</url>
 
     <properties>
@@ -15,9 +15,9 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <version>9.1.0</version>
+            <groupId>org.clusterj</groupId>
+            <artifactId>sql-facade</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -31,7 +31,7 @@
 
     <build>
 
-        <finalName>clusterj-database-adapter</finalName>
+        <finalName>clusterj-setup-db-adapter</finalName>
 
         <plugins>
 

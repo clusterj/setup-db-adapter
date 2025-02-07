@@ -1,6 +1,6 @@
 package org.clusterj.setupdb.adapter.setup;
 
-import org.clusterj.setupdb.facade.ISQLFacade;
+import org.clusterj.sql.facade.ISQLFacade;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SetupAdapter {
+public class SetupAdapter implements ISetupAdapter {
 
     private ISQLFacade sqlFacade;
 
@@ -21,6 +21,7 @@ public class SetupAdapter {
 
     }
 
+    @Override
     public List<Integer> idList() throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST)) {
@@ -39,6 +40,7 @@ public class SetupAdapter {
 
     }
 
+    @Override
     public Optional<SetupByIdRecord> byId(int id) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
@@ -65,7 +67,8 @@ public class SetupAdapter {
 
     }
 
-    public SetupAdapter setSqlFacade(ISQLFacade sqlFacade) {
+    @Override
+    public ISetupAdapter setSqlFacade(ISQLFacade sqlFacade) {
         this.sqlFacade = sqlFacade;
         return this;
     }

@@ -1,14 +1,17 @@
 package org.clusterj.setupdb.adapter.role;
 
-import org.clusterj.setupdb.facade.ISQLFacade;
+import org.clusterj.sql.facade.ISQLFacade;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RoleAdapter {
+public class RoleAdapter implements IRoleAdapter {
 
     private ISQLFacade sqlFacade;
 
@@ -22,6 +25,7 @@ public class RoleAdapter {
 
     }
 
+    @Override
     public Optional<Integer> create(int accountId, int organizationId, LocalDateTime created) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CREATE)) {
@@ -41,6 +45,7 @@ public class RoleAdapter {
 
     }
 
+    @Override
     public List<Integer> idListByOrganization(int organizationId) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_ORGANIZATION)) {
@@ -61,6 +66,7 @@ public class RoleAdapter {
 
     }
 
+    @Override
     public List<Integer> idListByAccount(int accountId) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_ACCOUNT)) {
@@ -81,6 +87,7 @@ public class RoleAdapter {
 
     }
 
+    @Override
     public Optional<Integer> idByAccountAndOrganization(int accountId, int organizationId) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_BY_ACCOUNT_AND_ORGANIZATION)) {
@@ -100,6 +107,7 @@ public class RoleAdapter {
 
     }
 
+    @Override
     public Optional<RoleByIdRecord> byId(int id) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
@@ -117,7 +125,7 @@ public class RoleAdapter {
                         rs.getInt("orga_id"),
                         rs.getObject("created", LocalDateTime.class),
                         rs.getObject("destroyed", LocalDateTime.class),
-                        sqlFacade.getRoleEnum(rs.getInt("role"))
+                        getRoleEnum(rs.getInt("role"))
 
                 ));
 
@@ -129,7 +137,20 @@ public class RoleAdapter {
 
     }
 
-    public RoleAdapter setSqlFacade(ISQLFacade sqlFacade) {
+    @Override
+    public RoleEnum getRoleEnum(int code) {
+        for (RoleEnum e : RoleEnum.values()) {
+            if (e.getCode() == code) {
+                return e;
+            }
+        }
+
+        throw new RuntimeException("invalid code at SQLFacade.getStatusEnum: " + code);
+
+    }
+
+    @Override
+    public IRoleAdapter setSqlFacade(ISQLFacade sqlFacade) {
         this.sqlFacade = sqlFacade;
         return this;
     }

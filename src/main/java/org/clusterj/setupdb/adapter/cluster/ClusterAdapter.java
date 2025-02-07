@@ -1,12 +1,16 @@
 package org.clusterj.setupdb.adapter.cluster;
 
+import org.clusterj.sql.facade.ISQLFacade;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ClusterAdapter {
+public class ClusterAdapter implements IClusterAdapter {
+
+    private ISQLFacade sqlFacade;
 
     public static final class SQL {
 
@@ -17,6 +21,7 @@ public class ClusterAdapter {
 
     }
 
+    @Override
     public Optional<Integer> create(Connection conn, String token, LocalDateTime created) throws SQLException {
 
         try (CallableStatement stmt = conn.prepareCall(SQL.CREATE)) {
@@ -35,6 +40,7 @@ public class ClusterAdapter {
 
     }
 
+    @Override
     public List<Integer> idListByOrganization(Connection conn, int organizationId) throws SQLException {
 
         try (CallableStatement stmt = conn.prepareCall(SQL.ID_LIST_BY_ORGANIZATION)) {
@@ -55,6 +61,7 @@ public class ClusterAdapter {
 
     }
 
+    @Override
     public Optional<Integer> idByToken(Connection conn, String token) throws SQLException {
 
         try (CallableStatement stmt = conn.prepareCall(SQL.ID_BY_TOKEN)) {
@@ -73,6 +80,7 @@ public class ClusterAdapter {
 
     }
 
+    @Override
     public Optional<ClusterByIdRecord> byId(Connection conn, int id) throws SQLException {
 
         try (CallableStatement stmt = conn.prepareCall(SQL.BY_ID)) {
@@ -98,6 +106,12 @@ public class ClusterAdapter {
 
         }
 
+    }
+
+    @Override
+    public ClusterAdapter setSqlFacade(ISQLFacade sqlFacade) {
+        this.sqlFacade = sqlFacade;
+        return this;
     }
 
 }

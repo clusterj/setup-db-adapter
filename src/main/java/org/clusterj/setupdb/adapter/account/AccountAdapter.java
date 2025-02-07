@@ -1,6 +1,6 @@
 package org.clusterj.setupdb.adapter.account;
 
-import org.clusterj.setupdb.facade.ISQLFacade;
+import org.clusterj.sql.facade.ISQLFacade;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -116,8 +116,8 @@ public class AccountAdapter implements IAccountAdapter {
                         rs.getInt("id"),
                         rs.getString("token"),
                         rs.getString("email"),
-                        sqlFacade.getTypeEnum(rs.getInt("type")),
-                        sqlFacade.getStatusEnum(rs.getInt("status")),
+                        getTypeEnum(rs.getInt("type")),
+                        getStatusEnum(rs.getInt("status")),
                         rs.getObject("created", LocalDateTime.class),
                         rs.getObject("destroyed", LocalDateTime.class),
                         rs.getString("statustoken")
@@ -129,6 +129,30 @@ public class AccountAdapter implements IAccountAdapter {
             return Optional.empty();
 
         }
+
+    }
+
+    @Override
+    public TypeEnum getTypeEnum(int code) {
+        for (TypeEnum e : TypeEnum.values()) {
+            if (e.getCode() == code) {
+                return e;
+            }
+        }
+
+        throw new RuntimeException("invalid code at SQLFacade.getStatusEnum: " + code);
+
+    }
+
+    @Override
+    public StatusEnum getStatusEnum(int code) {
+        for (StatusEnum e : StatusEnum.values()) {
+            if (e.getCode() == code) {
+                return e;
+            }
+        }
+
+        throw new RuntimeException("invalid code at SQLFacade.getStatusEnum: " + code);
 
     }
 

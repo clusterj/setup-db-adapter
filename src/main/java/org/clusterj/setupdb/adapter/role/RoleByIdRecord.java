@@ -1,7 +1,5 @@
 package org.clusterj.setupdb.adapter.role;
 
-import org.clusterj.setupdb.adapter.organization.RoleEnum;
-
 import java.time.LocalDateTime;
 
 public record RoleByIdRecord(

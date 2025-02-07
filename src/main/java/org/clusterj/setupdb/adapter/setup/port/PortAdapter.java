@@ -1,13 +1,14 @@
 package org.clusterj.setupdb.adapter.setup.port;
 
-import org.clusterj.setupdb.facade.ISQLFacade;
+
+import org.clusterj.sql.facade.ISQLFacade;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PortAdapter {
+public class PortAdapter implements IPortAdapter {
 
     private ISQLFacade sqlFacade;
 
@@ -19,6 +20,7 @@ public class PortAdapter {
 
     }
 
+    @Override
     public Optional<Integer> updateUsed(int id, int used) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.UPDATE_FREEPORTS)) {
@@ -37,6 +39,7 @@ public class PortAdapter {
 
     }
 
+    @Override
     public List<Integer> idListByMachine() throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_MACHINE)) {
@@ -55,6 +58,7 @@ public class PortAdapter {
 
     }
 
+    @Override
     public Optional<PortByIdRecord> byId(int id) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
@@ -82,7 +86,8 @@ public class PortAdapter {
 
     }
 
-    public PortAdapter setSqlFacade(ISQLFacade sqlFacade) {
+    @Override
+    public IPortAdapter setSqlFacade(ISQLFacade sqlFacade) {
         this.sqlFacade = sqlFacade;
         return this;
     }
