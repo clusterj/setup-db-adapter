@@ -13,6 +13,8 @@ public interface IAccountAdapter {
 
     Optional<Integer> idByEmail(String email) throws SQLException;
 
+    Optional<Integer> idByStatusToken(String token) throws SQLException;
+
     Optional<Integer> idByToken(String token) throws SQLException;
 
     Optional<AccountByIdRecord> byId(int id) throws SQLException;

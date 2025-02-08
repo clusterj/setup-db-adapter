@@ -18,6 +18,7 @@ public class AccountAdapter implements IAccountAdapter {
         public static String CONFIRM = "{call update_account_status(?,?,?,?)}";
         public static String CREATE = "{call create_account(?,?,?)}";
         public static String ID_BY_TOKEN = "{call account_id_by_token(?)}";
+        public static String ID_BY_STATUSTOKEN = "{call account_id_by_statustoken(?)}";
         public static String ID_BY_EMAIL = "{call account_id_by_email(?)}";
         public static String BY_ID = "{call account_by_id(?)}";
 
@@ -68,6 +69,25 @@ public class AccountAdapter implements IAccountAdapter {
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_BY_EMAIL)) {
 
             stmt.setString(1, email);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return Optional.of(rs.getInt(1));
+            }
+
+            return Optional.empty();
+
+        }
+
+    }
+
+    @Override
+    public Optional<Integer> idByStatusToken(String token) throws SQLException {
+
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_BY_STATUSTOKEN)) {
+
+            stmt.setString(1, token);
 
             ResultSet rs = stmt.executeQuery();
 
