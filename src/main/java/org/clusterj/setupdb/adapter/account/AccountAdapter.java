@@ -45,17 +45,22 @@ public class AccountAdapter implements IAccountAdapter {
     }
 
     @Override
-    public Optional<Integer> create(String email, LocalDateTime created) throws SQLException {
+    public Optional<Integer> create(String token , String email, int type, int status, LocalDateTime created, String statusToken) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CREATE)) {
 
-            stmt.setString(1, email);
-            stmt.setObject(2, created);
-            stmt.registerOutParameter(3, Types.INTEGER);
+            stmt.setString(1, token);
+            stmt.setString(2, email);
+            stmt.setInt(3, type);
+            stmt.setInt(4, status);
+            stmt.setObject(5, created);
+            stmt.setObject(6, created);
+            stmt.setString(7, email);
+            stmt.registerOutParameter(8, Types.INTEGER);
 
             stmt.executeUpdate();
 
-            int id = stmt.getInt(3);
+            int id = stmt.getInt(8);
 
             return Optional.of(id);
 
@@ -139,7 +144,7 @@ public class AccountAdapter implements IAccountAdapter {
                         getTypeEnum(rs.getInt("type")),
                         getStatusEnum(rs.getInt("status")),
                         rs.getObject("created", LocalDateTime.class),
-                        rs.getObject("destroyed", LocalDateTime.class),
+                        rs.getObject("updated", LocalDateTime.class),
                         rs.getString("statustoken")
 
                 ));

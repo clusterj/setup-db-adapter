@@ -10,7 +10,7 @@ public record AccountByIdRecord(
         TypeEnum type,
         StatusEnum status,
         LocalDateTime created,
-        LocalDateTime destroyed,
+        LocalDateTime updated,
         String statustoken
 
 ) {

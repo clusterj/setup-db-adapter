@@ -55,7 +55,7 @@ public class SetupAdapter implements ISetupAdapter {
 
                         rs.getInt("id"),
                         rs.getInt("machines"),
-                        rs.getObject("destroyed", LocalDateTime.class)
+                        rs.getObject("updated", LocalDateTime.class)
 
                 ));
 

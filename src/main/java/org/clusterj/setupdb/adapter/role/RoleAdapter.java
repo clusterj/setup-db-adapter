@@ -124,7 +124,7 @@ public class RoleAdapter implements IRoleAdapter {
                         rs.getInt("acct_id"),
                         rs.getInt("orga_id"),
                         rs.getObject("created", LocalDateTime.class),
-                        rs.getObject("destroyed", LocalDateTime.class),
+                        rs.getObject("updated", LocalDateTime.class),
                         getRoleEnum(rs.getInt("role"))
 
                 ));

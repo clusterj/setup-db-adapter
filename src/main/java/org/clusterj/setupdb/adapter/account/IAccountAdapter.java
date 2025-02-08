@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IAccountAdapter {
     Optional<Integer> confirm(String token, LocalDateTime updated) throws SQLException;
 
-    Optional<Integer> create(String email, LocalDateTime created) throws SQLException;
+    Optional<Integer> create(String token , String email, int type, int status, LocalDateTime created, String statusToken) throws SQLException;
 
     Optional<Integer> idByEmail(String email) throws SQLException;
 
