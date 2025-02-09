@@ -55,7 +55,7 @@ public class AccountAdapter implements IAccountAdapter {
             stmt.setInt(4, status);
             stmt.setObject(5, created);
             stmt.setObject(6, created);
-            stmt.setString(7, email);
+            stmt.setString(7, statusToken);
             stmt.registerOutParameter(8, Types.INTEGER);
 
             stmt.executeUpdate();
