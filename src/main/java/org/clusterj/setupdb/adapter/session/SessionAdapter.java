@@ -20,6 +20,26 @@ public class SessionAdapter implements ISessionAdapter {
         public static String UPDATE_DESTROYED = "{call update_session_destroyed(?,?,?)}";
         public static String ID_BY_TOKEN = "{call session_id_by_token(?)}";
         public static String BY_ID = "{call session_by_id(?)}";
+        public static String ID_BY_ACCOUNT_AND_CREATED = "{call session_id_by_account_and_created(?)}";
+
+    }
+
+    @Override
+    public Optional<Integer> idByAccountAndCreated(int accountId) throws SQLException {
+
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_BY_ACCOUNT_AND_CREATED)) {
+
+            stmt.setInt(1, accountId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return Optional.of(rs.getInt(1));
+            }
+
+            return Optional.empty();
+
+        }
 
     }
 

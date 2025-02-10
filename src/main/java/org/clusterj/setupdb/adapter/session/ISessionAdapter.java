@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface ISessionAdapter {
+    Optional<Integer> idByAccountAndCreated(int accountId) throws SQLException;
+
     Optional<Integer> create(String token, LocalDateTime created, int accountId) throws SQLException;
 
     Optional<Integer> updateStarted(int id, LocalDateTime started) throws SQLException;
