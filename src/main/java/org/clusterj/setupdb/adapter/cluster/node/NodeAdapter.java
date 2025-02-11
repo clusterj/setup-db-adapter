@@ -96,8 +96,8 @@ public class NodeAdapter implements INodeAdapter {
 
                         rs.getInt("id"),
                         rs.getString("token"),
-                        rs.getInt("orga_id"),
-                        rs.getObject("created", LocalDateTime.class)
+                        rs.getInt("cter_id"),
+                        rs.getInt("port_id")
 
                 ));
 

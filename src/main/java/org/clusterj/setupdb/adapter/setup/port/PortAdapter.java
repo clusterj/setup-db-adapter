@@ -6,6 +6,7 @@ import org.clusterj.sql.facade.ISQLFacade;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,26 @@ public class PortAdapter implements IPortAdapter {
         public static String BY_ID = "{call port_by_id(?)}";
         public static String ID_LIST_BY_MACHINE = "{call port_id_list_by_machine(?)}";
         public static String ID_LIST_BY_MACHINE_AND_USED = "{call port_id_list_by_machine_and_used(?,?)}";
+        public static String UPDATE_USED = "{call update_port_used(?,?,?)}";
+
+    }
+
+    @Override
+    public Optional<Integer> updateUsed(int id, UsedEnum used) throws SQLException {
+
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.UPDATE_USED)) {
+
+            stmt.setInt(1, id);
+            stmt.setInt(2, used.getCode());
+            stmt.registerOutParameter(3, Types.INTEGER);
+
+            stmt.executeUpdate();
+
+            int rowCount = stmt.getInt(3);
+
+            return Optional.of(rowCount);
+
+        }
 
     }
 
