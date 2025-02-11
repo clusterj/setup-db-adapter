@@ -4,7 +4,7 @@ public record PortByIdRecord(
 
         int id,
         int port,
-        int used,
+        UsedEnum used,
         int machineId
 
 ) {

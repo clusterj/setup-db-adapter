@@ -165,7 +165,7 @@ public class AccountAdapter implements IAccountAdapter {
             }
         }
 
-        throw new RuntimeException("invalid code at SQLFacade.getStatusEnum: " + code);
+        throw new RuntimeException("invalid code at AccountAdapter.getStatusEnum: " + code);
 
     }
 

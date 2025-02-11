@@ -22,13 +22,13 @@ public class NodeAdapter implements INodeAdapter {
     }
 
     @Override
-    public Optional<Integer> create(String token, int clusterId, int port) throws SQLException {
+    public Optional<Integer> create(String token, int clusterId, int portId) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CREATE)) {
 
             stmt.setString(1, token);
             stmt.setInt(2, clusterId);
-            stmt.setInt(3, port);
+            stmt.setInt(3, portId);
             stmt.registerOutParameter(3, Types.INTEGER);
 
             stmt.executeUpdate();
@@ -42,11 +42,11 @@ public class NodeAdapter implements INodeAdapter {
     }
 
     @Override
-    public List<Integer> idListByOrganization(int organizationId) throws SQLException {
+    public List<Integer> idListByCluster(int clusterId) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_CLUSTER)) {
 
-            stmt.setInt(1, organizationId);
+            stmt.setInt(1, clusterId);
 
             ResultSet rs = stmt.executeQuery();
 

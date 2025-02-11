@@ -14,25 +14,27 @@ public class ClusterAdapter implements IClusterAdapter {
 
     public static final class SQL {
 
-        public static String CREATE = "{call create_cluster(?,?,?)}";
+        public static String CREATE = "{call create_cluster(?,?,?,?)}";
         public static String ID_BY_TOKEN = "{call cluster_id_by_token(?)}";
         public static String ID_LIST_BY_ORGANIZATION = "{call cluster_id_list_by_organization(?)}";
         public static String BY_ID = "{call cluster_by_id(?)}";
 
     }
 
+   
     @Override
-    public Optional<Integer> create(Connection conn, String token, LocalDateTime created) throws SQLException {
+    public Optional<Integer> create(String token, int organizationId, LocalDateTime created) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.CREATE)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CREATE)) {
 
             stmt.setString(1, token);
-            stmt.setObject(2, created);
-            stmt.registerOutParameter(3, Types.INTEGER);
+            stmt.setInt(2, organizationId);
+            stmt.setObject(3, created);
+            stmt.registerOutParameter(4, Types.INTEGER);
 
             stmt.executeUpdate();
 
-            int id = stmt.getInt(3);
+            int id = stmt.getInt(4);
 
             return Optional.of(id);
 
@@ -40,10 +42,11 @@ public class ClusterAdapter implements IClusterAdapter {
 
     }
 
+   
     @Override
-    public List<Integer> idListByOrganization(Connection conn, int organizationId) throws SQLException {
+    public List<Integer> idListByOrganization(int organizationId) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_LIST_BY_ORGANIZATION)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_ORGANIZATION)) {
 
             stmt.setInt(1, organizationId);
 
@@ -61,10 +64,11 @@ public class ClusterAdapter implements IClusterAdapter {
 
     }
 
+   
     @Override
-    public Optional<Integer> idByToken(Connection conn, String token) throws SQLException {
+    public Optional<Integer> idByToken(String token) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.ID_BY_TOKEN)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_BY_TOKEN)) {
 
             stmt.setString(1, token);
 
@@ -80,10 +84,11 @@ public class ClusterAdapter implements IClusterAdapter {
 
     }
 
+   
     @Override
-    public Optional<ClusterByIdRecord> byId(Connection conn, int id) throws SQLException {
+    public Optional<ClusterByIdRecord> byId(int id) throws SQLException {
 
-        try (CallableStatement stmt = conn.prepareCall(SQL.BY_ID)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.BY_ID)) {
 
             stmt.setInt(1, id);
 
@@ -108,8 +113,9 @@ public class ClusterAdapter implements IClusterAdapter {
 
     }
 
+   
     @Override
-    public ClusterAdapter setSqlFacade(ISQLFacade sqlFacade) {
+    public IClusterAdapter setSqlFacade(ISQLFacade sqlFacade) {
         this.sqlFacade = sqlFacade;
         return this;
     }

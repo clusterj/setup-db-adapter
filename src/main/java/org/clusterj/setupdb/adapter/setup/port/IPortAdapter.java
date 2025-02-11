@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IPortAdapter {
-    Optional<Integer> updateUsed(int id, int used) throws SQLException;
+    List<Integer> idListByMachineAndUsed(int id, UsedEnum used) throws SQLException;
 
-    List<Integer> idListByMachine() throws SQLException;
+    List<Integer> idListByMachine(int id) throws SQLException;
 
     Optional<PortByIdRecord> byId(int id) throws SQLException;
 

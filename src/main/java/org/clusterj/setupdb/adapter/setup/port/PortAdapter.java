@@ -3,7 +3,9 @@ package org.clusterj.setupdb.adapter.setup.port;
 
 import org.clusterj.sql.facade.ISQLFacade;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,34 +17,38 @@ public class PortAdapter implements IPortAdapter {
     public static final class SQL {
 
         public static String BY_ID = "{call port_by_id(?)}";
-        public static String ID_LIST_BY_MACHINE = "{call role_id_list_by_organization(?)}";
-        public static String UPDATE_FREEPORTS = "{call update_machine_freeports(?,?)}";
+        public static String ID_LIST_BY_MACHINE = "{call port_id_list_by_machine(?)}";
+        public static String ID_LIST_BY_MACHINE_AND_USED = "{call port_id_list_by_machine_and_used(?,?)}";
 
     }
 
     @Override
-    public Optional<Integer> updateUsed(int id, int used) throws SQLException {
+    public List<Integer> idListByMachineAndUsed(int id, UsedEnum used) throws SQLException {
 
-        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.UPDATE_FREEPORTS)) {
+        try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_MACHINE_AND_USED)) {
 
             stmt.setInt(1, id);
-            stmt.setInt(2, used);
-            stmt.registerOutParameter(4, Types.INTEGER);
+            stmt.setInt(2, used.getCode());
 
-            stmt.executeUpdate();
+            ResultSet rs = stmt.executeQuery();
 
-            int rowCount = stmt.getInt(4);
+            List<Integer> list = new ArrayList<>();
 
-            return Optional.of(rowCount);
+            while (rs.next()) {
+                list.add(rs.getInt(1));
+            }
+
+            return list;
 
         }
 
     }
 
-    @Override
-    public List<Integer> idListByMachine() throws SQLException {
+    public List<Integer> idListByMachine(int id) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.ID_LIST_BY_MACHINE)) {
+
+            stmt.setInt(1, id);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -73,7 +79,7 @@ public class PortAdapter implements IPortAdapter {
 
                         rs.getInt("id"),
                         rs.getInt("port"),
-                        rs.getInt("used"),
+                        getUsedEnum(rs.getInt("used")),
                         rs.getInt("mach_id")
 
                 ));
@@ -83,6 +89,17 @@ public class PortAdapter implements IPortAdapter {
             return Optional.empty();
 
         }
+
+    }
+
+    public UsedEnum getUsedEnum(int code) {
+        for (UsedEnum e : UsedEnum.values()) {
+            if (e.getCode() == code) {
+                return e;
+            }
+        }
+
+        throw new RuntimeException("invalid code at PortAdapter.getStatusEnum: " + code);
 
     }
 
