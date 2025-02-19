@@ -16,7 +16,7 @@ public class AccountAdapter implements IAccountAdapter {
     public static final class SQL {
 
         public static String CONFIRM = "{call update_account_status(?,?,?,?)}";
-        public static String CREATE = "{call create_account(?,?,?)}";
+        public static String CREATE = "{call create_account(?,?,?,?,?,?,?)}";
         public static String ID_BY_TOKEN = "{call account_id_by_token(?)}";
         public static String ID_BY_STATUSTOKEN = "{call account_id_by_statustoken(?)}";
         public static String ID_BY_EMAIL = "{call account_id_by_email(?)}";
@@ -54,13 +54,12 @@ public class AccountAdapter implements IAccountAdapter {
             stmt.setInt(3, type);
             stmt.setInt(4, status);
             stmt.setObject(5, created);
-            stmt.setObject(6, created);
-            stmt.setString(7, statusToken);
-            stmt.registerOutParameter(8, Types.INTEGER);
+            stmt.setString(6, statusToken);
+            stmt.registerOutParameter(7, Types.INTEGER);
 
             stmt.executeUpdate();
 
-            int id = stmt.getInt(8);
+            int id = stmt.getInt(7);
 
             return Optional.of(id);
 
