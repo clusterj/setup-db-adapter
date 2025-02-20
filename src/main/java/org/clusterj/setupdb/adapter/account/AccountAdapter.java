@@ -25,11 +25,11 @@ public class AccountAdapter implements IAccountAdapter {
     }
 
     @Override
-    public Optional<Integer> confirm(String token, LocalDateTime updated) throws SQLException {
+    public Optional<Integer> confirm(int id, LocalDateTime updated) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CONFIRM)) {
 
-            stmt.setString(1, token);
+            stmt.setInt(1, id);
             stmt.setObject(2, updated);
             stmt.setInt(3, StatusEnum.ACTIVE.getCode());
             stmt.registerOutParameter(4, Types.INTEGER);

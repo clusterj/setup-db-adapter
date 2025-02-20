@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface IAccountAdapter {
-    Optional<Integer> confirm(String token, LocalDateTime updated) throws SQLException;
+    Optional<Integer> confirm(int id, LocalDateTime updated) throws SQLException;
 
     Optional<Integer> create(String token , String email, int type, int status, LocalDateTime created, String statusToken) throws SQLException;
 
