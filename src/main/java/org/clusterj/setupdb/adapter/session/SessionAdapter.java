@@ -55,7 +55,7 @@ public class SessionAdapter implements ISessionAdapter {
 
             stmt.executeUpdate();
 
-            int id = stmt.getInt(8);
+            int id = stmt.getInt(4);
 
             return Optional.of(id);
 
