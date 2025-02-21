@@ -8,8 +8,7 @@ public record MachineByIdRecord(
         String host,
         int port,
         int freeports,
-        LocalDateTime created,
-        LocalDateTime updated
+        LocalDateTime created
 
 ) {
 }

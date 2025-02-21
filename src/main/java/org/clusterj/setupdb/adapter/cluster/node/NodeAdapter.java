@@ -14,7 +14,7 @@ public class NodeAdapter implements INodeAdapter {
 
     public static final class SQL {
 
-        public static String CREATE = "{call create_node(?,?,?)}";
+        public static String CREATE = "{call create_node(?,?,?,?)}";
         public static String ID_BY_TOKEN = "{call node_id_by_token(?)}";
         public static String ID_LIST_BY_CLUSTER = "{call node_id_list_by_cluster(?)}";
         public static String BY_ID = "{call node_by_id(?)}";
@@ -29,7 +29,7 @@ public class NodeAdapter implements INodeAdapter {
             stmt.setString(1, token);
             stmt.setInt(2, clusterId);
             stmt.setInt(3, portId);
-            stmt.registerOutParameter(3, Types.INTEGER);
+            stmt.registerOutParameter(4, Types.INTEGER);
 
             stmt.executeUpdate();
 

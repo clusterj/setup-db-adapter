@@ -16,8 +16,8 @@ public class MachineAdapter implements IMachineAdapter {
     public static final class SQL {
 
         public static String BY_ID = "{call machine_by_id(?)}";
-        public static String ID_LIST = "{call machine_id_list(?)}";
-        public static String UPDATE_FREEPORTS = "{call update_machine_freeports(?,?)}";
+        public static String ID_LIST = "{call machine_id_list()}";
+        public static String UPDATE_FREEPORTS = "{call update_machine_freeports(?,?,?,?)}";
 
     }
 
@@ -77,8 +77,7 @@ public class MachineAdapter implements IMachineAdapter {
                         rs.getString("host"),
                         rs.getInt("port"),
                         rs.getInt("freeports"),
-                        rs.getObject("created", LocalDateTime.class),
-                        rs.getObject("updated", LocalDateTime.class)
+                        rs.getObject("created", LocalDateTime.class)
 
                 ));
 
