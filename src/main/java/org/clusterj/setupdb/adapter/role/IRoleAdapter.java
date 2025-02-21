@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IRoleAdapter {
-    Optional<Integer> create(int accountId, int organizationId, LocalDateTime created) throws SQLException;
+    Optional<Integer> create(int accountId, int organizationId, RoleEnum role, LocalDateTime created) throws SQLException;
 
     List<Integer> idListByOrganization(int organizationId) throws SQLException;
 

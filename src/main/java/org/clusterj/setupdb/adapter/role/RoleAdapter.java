@@ -17,7 +17,7 @@ public class RoleAdapter implements IRoleAdapter {
 
     public static final class SQL {
 
-        public static String CREATE = "{call create_role(?,?,?,?)}";
+        public static String CREATE = "{call create_role(?,?,?,?,?)}";
         public static String ID_BY_ACCOUNT_AND_ORGANIZATION = "{call id_role_by_account_and_organization(?,?)}";
         public static String ID_LIST_BY_ORGANIZATION = "{call role_id_list_by_organization(?)}";
         public static String ID_LIST_BY_ACCOUNT = "{call role_id_list_by_account(?)}";
@@ -26,18 +26,19 @@ public class RoleAdapter implements IRoleAdapter {
     }
 
     @Override
-    public Optional<Integer> create(int accountId, int organizationId, LocalDateTime created) throws SQLException {
+    public Optional<Integer> create(int accountId, int organizationId, RoleEnum role, LocalDateTime created) throws SQLException {
 
         try (CallableStatement stmt = sqlFacade.prepareCall(SQL.CREATE)) {
 
             stmt.setInt(1, accountId);
             stmt.setInt(2, organizationId);
-            stmt.setObject(3, created);
-            stmt.registerOutParameter(4, Types.INTEGER);
+            stmt.setInt(3, role.getCode());
+            stmt.setObject(4, created);
+            stmt.registerOutParameter(5, Types.INTEGER);
 
             stmt.executeUpdate();
 
-            int id = stmt.getInt(4);
+            int id = stmt.getInt(5);
 
             return Optional.of(id);
 
