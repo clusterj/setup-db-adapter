@@ -7,6 +7,7 @@ public record MachineByIdRecord(
         int id,
         String host,
         int port,
+        int shutdownPort,
         int freeports,
         LocalDateTime created
 

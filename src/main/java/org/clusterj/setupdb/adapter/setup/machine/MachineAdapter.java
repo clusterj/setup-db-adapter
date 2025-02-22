@@ -76,6 +76,7 @@ public class MachineAdapter implements IMachineAdapter {
                         rs.getInt("id"),
                         rs.getString("host"),
                         rs.getInt("port"),
+                        rs.getInt("shutdownPort"),
                         rs.getInt("freeports"),
                         rs.getObject("created", LocalDateTime.class)
 

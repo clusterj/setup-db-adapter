@@ -100,6 +100,7 @@ public class PortAdapter implements IPortAdapter {
 
                         rs.getInt("id"),
                         rs.getInt("port"),
+                        rs.getInt("shutdownport"),
                         getUsedEnum(rs.getInt("used")),
                         rs.getInt("mach_id")
 
